@@ -1,0 +1,39 @@
+const mysql = require('mysql');
+
+//initialize mysql connection
+const MYSQL_IP="localhost";
+const MYSQL_LOGIN="root";
+const MYSQL_PASSWORD="root";
+
+let con = mysql.createConnection({
+  host:  MYSQL_IP,
+  user: MYSQL_LOGIN,
+  password: MYSQL_PASSWORD,
+  database: "sakila"
+});
+
+con.connect(function(err) {
+  if (err){
+    console.log(err);
+    throw err;
+  }
+  //console.log("Connection with mysql established");
+});
+
+
+const findAll = function (callback){ 
+  let sql="SELECT * FROM actor";
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        result.forEach(record=>{
+          //console.log("Result without parameters:",record);
+        });
+       // console.log("Length", result.length);
+       callback(result);
+   });
+ 
+}
+//findAll ((records)=>{console.log("Length", records.length)});
+
+module.exports = {findAll};
+  
